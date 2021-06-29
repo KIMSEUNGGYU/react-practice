@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+function TodoTemplate({ children }) {
+  return <TodoTemplateBlock>{children}</TodoTemplateBlock>;
+}
+
 const TodoTemplateBlock = styled.div`
   width: 512px;
   height: 768px;
@@ -17,9 +21,5 @@ const TodoTemplateBlock = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-function TodoTemplate({ children }) {
-  return <TodoTemplateBlock>{children}</TodoTemplateBlock>;
-}
 
 export default TodoTemplate;

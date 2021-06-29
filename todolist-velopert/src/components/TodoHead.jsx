@@ -2,6 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { useTodoState } from "../TodoContext";
 
+function TodoHead() {
+  const todos = useTodoState();
+  const undoneTasks = todos.filter((todo) => !todo.done);
+
+  return (
+    <TodoHeadBlock>
+      <h1>2019년 7월 10일</h1>
+      <div className="day">수요일</div>
+      <div className="tasks-left">할 일 {undoneTasks.length}개 남음</div>
+    </TodoHeadBlock>
+  );
+}
+
 const TodoHeadBlock = styled.div`
   padding-top: 48px;
   padding-left: 32px;
@@ -25,18 +38,5 @@ const TodoHeadBlock = styled.div`
     font-weight: bold;
   }
 `;
-
-function TodoHead() {
-  const todos = useTodoState();
-  const undoneTasks = todos.filter((todo) => !todo.done);
-
-  return (
-    <TodoHeadBlock>
-      <h1>2019년 7월 10일</h1>
-      <div className="day">수요일</div>
-      <div className="tasks-left">할 일 {undoneTasks.length}개 남음</div>
-    </TodoHeadBlock>
-  );
-}
 
 export default TodoHead;
