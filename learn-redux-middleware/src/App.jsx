@@ -1,7 +1,8 @@
-import CounterContainer from './containers/Counter';
+// import CounterContainer from './containers/Counter';
+import SampleContainer from './containers/Sample';
 
 function App() {
-  return <CounterContainer></CounterContainer>;
+  return <SampleContainer />;
 }
 
 export default App;
