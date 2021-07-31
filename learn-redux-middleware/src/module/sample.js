@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as api from '../lib/api';
 import createRequestThunk from '../lib/createRequestThunk';
+import createRequestSaga from '../lib/createRequestSaga';
 import { startLoading, finishLoading } from './loading';
 
 // 액션 타입 선언
@@ -23,6 +24,8 @@ export const getUsers = createAction(GET_USERS);
 // export const getPost = createRequestThunk(GET_POST, api.getPost);
 // export const getUsers = createRequestThunk(GET_USERS, api.getUsers);
 // 리팩토링 전
+// 액션 생성 함수
+
 // export const getPost = (id) => async (dispatch) => {
 //   // dispatch({ type: GET_POST }); // 요청 시작
 //   // try {
@@ -60,44 +63,47 @@ export const getUsers = createAction(GET_USERS);
 // };
 
 // redux-saga 함수 선언
-function* getPostSaga(action) {
-  yield put(startLoading(GET_POST)); // 로딩 시작
-  // 파라미터로 aciton 을 받아 오면 action 의 정보를 조회할 수 있음.
-  try {
-    // call 을 사용하면 Pormise 를 반환하는 함수를 호출하고, 기다릴 수 있음.
-    const post = yield call(api.getPost, action.payload); // == api.getPost(aciotn.paylod)
-    yield put({
-      type: GET_POST_SUCCESS,
-      payload: post.data,
-    });
-  } catch (error) {
-    yield put({
-      type: GET_POST_FAILURE,
-      payload: error,
-      error: true,
-    });
-  }
+export const getPostSaga = createRequestSaga(GET_POST, api.getPost);
+export const getUsersSaga = createRequestSaga(GET_USERS, api.getUsers);
+// 리팩토링 전
+// function* getPostSaga(action) {
+//   yield put(startLoading(GET_POST)); // 로딩 시작
+//   // 파라미터로 aciton 을 받아 오면 action 의 정보를 조회할 수 있음.
+//   try {
+//     // call 을 사용하면 Pormise 를 반환하는 함수를 호출하고, 기다릴 수 있음.
+//     const post = yield call(api.getPost, action.payload); // == api.getPost(aciotn.paylod)
+//     yield put({
+//       type: GET_POST_SUCCESS,
+//       payload: post.data,
+//     });
+//   } catch (error) {
+//     yield put({
+//       type: GET_POST_FAILURE,
+//       payload: error,
+//       error: true,
+//     });
+//   }
 
-  yield put(finishLoading(GET_POST)); // 로딩 완료
-}
-function* getUsersSaga() {
-  yield put(startLoading(GET_USERS)); // 로딩 시작
-  try {
-    const users = yield call(api.getUsers);
-    yield put({
-      type: GET_USERS_SUCCESS,
-      payload: users.data,
-    });
-  } catch (error) {
-    yield put({
-      type: GET_USERS_FAILURE,
-      payload: error,
-      error: true,
-    });
-  }
+//   yield put(finishLoading(GET_POST)); // 로딩 완료
+// }
+// function* getUsersSaga() {
+//   yield put(startLoading(GET_USERS)); // 로딩 시작
+//   try {
+//     const users = yield call(api.getUsers);
+//     yield put({
+//       type: GET_USERS_SUCCESS,
+//       payload: users.data,
+//     });
+//   } catch (error) {
+//     yield put({
+//       type: GET_USERS_FAILURE,
+//       payload: error,
+//       error: true,
+//     });
+//   }
 
-  yield put(finishLoading(GET_POST)); // 로딩 완료
-}
+//   yield put(finishLoading(GET_POST)); // 로딩 완료
+// }
 
 export function* sampleSaga() {
   yield takeLatest(GET_POST, getPostSaga);
